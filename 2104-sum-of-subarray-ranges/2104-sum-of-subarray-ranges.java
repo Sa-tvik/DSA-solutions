@@ -1,4 +1,6 @@
-long sum = 0;
+class Solution {
+    public long subArrayRanges(int[] nums) {
+        long sum = 0;
         int N = nums.length;
         int[] pse = new int[N];
         int[] nse = new int[N];
@@ -45,3 +47,5 @@ long sum = 0;
             sumOfSubarrayMaximums+=cnteleleft*cnteleright*nums[i];
         }
         return sumOfSubarrayMaximums-sumOfSubarrayMinimums;
+    }
+}
