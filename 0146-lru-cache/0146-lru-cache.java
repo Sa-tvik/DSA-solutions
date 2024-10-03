@@ -1,6 +1,8 @@
+import java.util.HashMap;
+
 class Node {
-    int key;    // Adding key to identify the node
-    int value;  // Change 'data' to 'value' for clarity
+    int key;
+    int value;
     Node next;
     Node prev;
     
@@ -14,68 +16,56 @@ class Node {
 class LRUCache {
     Node head;
     Node tail;
-    HashMap<Integer, Node> mpp; // Map to store key and Node
+    HashMap<Integer, Node> mpp;
     int capacity;
 
     public LRUCache(int capacity) {
         this.capacity = capacity;
         mpp = new HashMap<>();
-        head = new Node(-1, -1); // Dummy head
-        tail = new Node(-1, -1); // Dummy tail
+        head = new Node(-1, -1);
+        tail = new Node(-1, -1);
         head.next = tail;
         tail.prev = head;
     }
 
     private void insertAfterHead(Node temp) {
-        temp.next = head.next; // Link temp node's next to head's next node
-        temp.prev = head;      // Set temp node's prev to head
-
-        head.next.prev = temp; // If head's next exists, set its prev to temp
-        head.next = temp;      // Link head to temp
+        temp.next = head.next;
+        temp.prev = head;
+        head.next.prev = temp;
+        head.next = temp;
     }
 
     private void deleteNode(Node node) {
         if (node == null) return;
-
-        // Adjust the links of the previous and next nodes
         node.prev.next = node.next;
         node.next.prev = node.prev;
-
-        // Clear the node's pointers (optional)
         node.next = null;
         node.prev = null;
     }
 
     public int get(int key) {
-        if (!mpp.containsKey(key)) return -1; // Key does not exist
-
-        // Key exists, retrieve the node and update its position
+        if (!mpp.containsKey(key)) return -1;
         Node node = mpp.get(key);
-        deleteNode(node); // Remove node from its current position
-        insertAfterHead(node); // Insert it after head
-
-        return node.value; // Return the value
+        deleteNode(node);
+        insertAfterHead(node);
+        return node.value;
     }
     
     public void put(int key, int value) {
         if (mpp.containsKey(key)) {
-            // Key exists, update the value
             Node node = mpp.get(key);
-            node.value = value; // Update value
-            deleteNode(node); // Remove node from its current position
-            insertAfterHead(node); // Insert it after head
+            node.value = value;
+            deleteNode(node);
+            insertAfterHead(node);
         } else {
-            // Key does not exist
             Node newNode = new Node(key, value);
             if (mpp.size() == capacity) {
-                // Cache is full, remove the least recently used item
-                Node lruNode = tail.prev; // The node before tail is the LRU
-                deleteNode(lruNode); // Remove LRU node from the list
-                mpp.remove(lruNode.key); // Remove from HashMap
+                Node lruNode = tail.prev;
+                deleteNode(lruNode);
+                mpp.remove(lruNode.key);
             }
-            // Insert the new node
             insertAfterHead(newNode);
-            mpp.put(key, newNode); // Add to the HashMap
+            mpp.put(key, newNode);
         }
     }
 }
