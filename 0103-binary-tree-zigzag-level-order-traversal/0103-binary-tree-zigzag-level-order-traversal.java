@@ -15,42 +15,30 @@
  */
 class Solution {
     public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
-        List<List<Integer>> res = new ArrayList<>();
-        if(root == null){ return res; }
-        ArrayDeque<TreeNode> q = new ArrayDeque();
-        q.addLast(root);
-        int j = 0;
-        while(!q.isEmpty()){
-            int n = q.size();          
-            List<Integer> temp = new ArrayList<>();
-            if(j%2!=0){
-                for (int i = 0; i < n; i++) {
-                    TreeNode current = q.pollLast();
-                    temp.add(current.val);
+        List<List<Integer>> ans = new ArrayList<>();
+        if (root == null) return ans;
 
-                    if (current.right != null) {
-                        q.addFirst(current.right);
-                    }
-                    if (current.left != null) {
-                        q.addFirst(current.left);
-                    }
-                }
-            }else{
-                for (int i = 0; i < n; i++) {
-                    TreeNode current = q.pollFirst();
-                    temp.add(current.val);
+        Queue<TreeNode> temp = new LinkedList<>();
+        temp.offer(root);
+        boolean ltor = true;
 
-                    if (current.left != null) {
-                        q.addLast(current.left);
-                    }
-                    if (current.right != null) {
-                        q.addLast(current.right);
-                    }
-                }
+        while (!temp.isEmpty()) {
+            int l = temp.size();
+            List<Integer> tree = new ArrayList<>(Collections.nCopies(l, 0));
+
+            for (int i = 0; i < l; i++) {
+                TreeNode node = temp.poll();
+                tree.set(ltor ? i : l - 1 - i, node.val);
+
+                if (node.left != null) temp.offer(node.left);
+                if (node.right != null) temp.offer(node.right);
             }
-            j++;
-            res.add(temp);
+
+            ltor = !ltor;
+            ans.add(tree);
         }
-        return res; 
+
+        return ans;
+        
     }
 }
