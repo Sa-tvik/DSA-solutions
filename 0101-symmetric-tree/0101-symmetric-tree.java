@@ -21,9 +21,9 @@ class Solution {
         if (p == null || q == null || p.val != q.val) {
             return false;
         }
-        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        return isSameTree(p.left, q.right) && isSameTree(p.right, q.left);
     }
-    public boolean isSymmetric(TreeNode root) {
-        return !isSameTree(root.left,root.right);
+    public boolean isSymmetric(TreeNode root) {  
+        return isSameTree(root.left,root.right);
     }
 }
