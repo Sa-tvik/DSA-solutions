@@ -9,13 +9,13 @@ class Solution {
                 return mid;
             }
             if(nums[low]<=nums[mid]){       
-                if (nums[low] <= target && target<=nums[mid]){
+                if (nums[low] <= target ){
                     high = mid - 1;
                 }else{
                     low = mid + 1; 
                 }
             }else{      
-                if(nums[high] >= target && target>=nums[mid]){
+                if(nums[high] >= target){
                     low = mid + 1;
                 }else{
                     high = mid-1; 
