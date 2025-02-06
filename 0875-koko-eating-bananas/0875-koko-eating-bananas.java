@@ -2,8 +2,7 @@ class Solution {
     static boolean helper(int[] piles, int h, int k){
         int hoursNeeded = 0;
         for (int pile : piles) {
-            hoursNeeded += Math.ceil((double) pile / k);
- 
+            hoursNeeded += (pile + k - 1) / k; 
             if (hoursNeeded > h) {
                 return false; 
             }
