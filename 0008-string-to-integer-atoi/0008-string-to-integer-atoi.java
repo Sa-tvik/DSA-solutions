@@ -2,8 +2,7 @@ class Solution {
     public int myAtoi(String s) {
         int sign = 1, i = 0, ans = 0;
         int max = 2147483647, min = -2147483648;
-        StringBuilder sb = new StringBuilder();
-
+        
         while(i < s.length() && s.charAt(i) == ' ') i++;
 
         if(i < s.length() && s.charAt(i) == '-') { sign = -1; i++; }
