@@ -1,18 +1,33 @@
 class Solution {
     public String predictPartyVictory(String senate) {
-        Queue<Integer> qr = new LinkedList<>();
-        Queue<Integer> qd = new LinkedList<>();
-        int n = senate.length();
-        for(int i = 0;i < n;i++){
-            if(senate.charAt(i) == 'R') qr.add(i);
-            else qd.add(i);
+        Queue<Character> queue = new LinkedList<>();
+        char[] arr = senate.toCharArray();
+        
+        for(int i=0;i<arr.length;i++){
+            queue.add(arr[i]);
         }
-        for(;!qr.isEmpty() && !qd.isEmpty();){
-            int r_i = qr.poll();
-            int d_i = qd.poll();
-            if(r_i < d_i) qr.add(r_i + n);
-            else qd.add(d_i + n);
+
+        while(queue.size()>0){
+            Character c = queue.poll();
+            boolean isRemoved = false;
+            if(c == 'R'){
+                isRemoved = queue.remove('D');
+            }
+            else{
+               isRemoved = queue.remove('R');
+            }
+            queue.add(c); 
+            if(!isRemoved){ 
+                break;
+            }
         }
-        return qr.size() > qd.size() ? "Radiant" : "Dire";
+
+        Character winner = queue.poll();
+        if(winner == 'R'){
+            return "Radiant";
+        }
+        else{
+            return "Dire";
+        }
     }
 }
