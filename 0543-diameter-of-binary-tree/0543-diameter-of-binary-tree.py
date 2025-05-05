@@ -11,8 +11,7 @@ class Solution(object):
         :rtype: int
         """
         diameter = [0]
-        def maxDepth(root):
-            
+        def maxDepth(root): 
             if root == None:
                 return 0
             
