@@ -4,26 +4,18 @@ class Solution(object):
         :type rooms: List[List[int]]
         :rtype: bool
         """ 
-        vis = []
-        arr = []
-        idx = 1
-        vis.append(0)
-        arr.append(0)
-        for i in range(len(rooms[0])): 
-            arr.append(rooms[0][i])
+        vis = set()
+        arr = [0]
 
-        while idx < len(arr):
-            if arr[idx] not in vis: 
-                vis.append(arr[idx])
-            else: 
+        while arr:
+            curr = arr.pop(0)
+            if curr in vis:
                 continue
+            vis.add(curr)
+            for key in rooms[curr]:
+                if key not in vis:
+                    arr.append(key)
 
-            if len(vis) == len(rooms): return True
-
-            for i in range(len(rooms[arr[idx]])):
-                if rooms[arr[idx]][i] not in arr:
-                    arr.append(rooms[arr[idx]][i])
-            idx+=1
-        return False
+        return len(vis) == len(rooms)
                 
         
