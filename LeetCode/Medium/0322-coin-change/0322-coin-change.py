@@ -6,20 +6,21 @@ class Solution(object):
         :rtype: int
         """
         n = len(coins)
-        dp = [[-1 for j in range(amount+1)] for i in range(n)]
+        dp = [-1 for j in range(amount+1)]
         for i in range(amount+1):
             if i%coins[0] == 0:
-                dp[0][i] = i//coins[0]
+                dp[i] = i//coins[0]
             else:
-                dp[0][i] = float('inf')
+                dp[i] = float('inf')
         
         for idx in range(1,n):
+            temp = [-1]*(amount+1)
             for target in range(amount+1):          
-                notTaken = dp[idx-1][target]
+                notTaken = dp[target]
                 taken = float('inf')
                 if coins[idx]<=target:
-                    taken = 1 + dp[idx][target-coins[idx]]
-                dp[idx][target] = min(taken, notTaken)
-
-        num = dp[n-1][amount]
+                    taken = 1 + temp[target-coins[idx]]
+                temp[target] = min(taken, notTaken)
+            dp = temp
+        num = dp[amount]
         return num if num != float('inf') else -1
