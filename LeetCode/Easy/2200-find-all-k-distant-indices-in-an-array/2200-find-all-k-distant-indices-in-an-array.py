@@ -11,7 +11,7 @@ class Solution:
         n = len(nums)
         m = len(freq)
         for i in range(n):
-            while j<m and freq[j]<i-k:      
+            while j<m and freq[j]<i and (i-freq[j])>k:      
                 j+=1
             if j<m and abs(i-freq[j])<=k:
                 res.append(i)
