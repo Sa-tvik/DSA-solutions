@@ -5,30 +5,31 @@ class Solution(object):
         :type target: int
         :rtype: int
         """
+
         n = len(nums)
+        k = target
         total = sum(abs(x) for x in nums)
         offset = total
-        dp = [[-1 for j in range(2*offset+1)] for i in range(n)]
-
-        def helper(idx, curr):
-            if idx == 0:
-                cnt = 0
-                if curr+nums[idx] == target:
-                    cnt+=1
-                if curr-nums[idx] == target:
-                    cnt+=1
-                return cnt
-            
-            if dp[idx][curr + offset] != -1:
-                return dp[idx][curr + offset]
-
-            notTaken = helper(idx-1, curr-nums[idx])
-            taken = 0
-            taken = helper(idx-1, curr+nums[idx])
-            dp[idx][curr + offset] = taken+notTaken
-
-            return dp[idx][offset + curr]
-
-        num = helper(n-1,0)
-        return num 
+        if target>total:
+            return 0
+        if n == 1:
+            if (nums[0] == target or -nums[0] == target):
+                if nums[0] == 0:
+                    return 2
+                return 1
+            return 0
         
+        dp = [0 for j in range(2*offset+1)]
+        
+        dp[nums[0] + offset] += 1
+        dp[-nums[0] + offset] += 1
+
+        for idx in range(1,n):
+            temp = [0]*(2*offset+1)
+            for t in range(-total,total+1):
+                if dp[t+offset]>0:
+                    temp[t+offset+nums[idx]] += dp[t+offset]
+                    temp[t+offset-nums[idx]] += dp[t+offset]
+            dp = temp
+
+        return dp[target+offset]
