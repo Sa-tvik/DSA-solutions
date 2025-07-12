@@ -1,20 +1,15 @@
 class Solution:
     def longestPalindromeSubseq(self, s: str) -> int:
-        def helper(ind1, ind2):
-            if ind1<0 or ind2<0:
-                return 0
-             
-            if dp[ind1][ind2] !=-1:
-                return dp[ind1][ind2]
-            
-            if s[ind1] == revS[ind2]:
-                dp[ind1][ind2] = 1 + helper(ind1-1, ind2-1)
-            else:
-                dp[ind1][ind2] = max(helper(ind1-1, ind2), helper(ind1,ind2-1))
-
-            return dp[ind1][ind2]
-        
         n = len(s)
         revS = "".join(reversed(s))
-        dp =[[-1 for j in range(n)] for i in range(n)]
-        return helper(n-1,n-1)
+        dp = [0]*(n+1)
+
+        for ind1 in range(1,n+1):
+            temp = [0]*(n+1)
+            for ind2 in range(1,n+1):
+                if s[ind1-1] == revS[ind2-1]:
+                    temp[ind2] = 1 + dp[ind2-1]
+                else:
+                    temp[ind2] = max(dp[ind2], temp[ind2-1])
+            dp = temp
+        return dp[n]
