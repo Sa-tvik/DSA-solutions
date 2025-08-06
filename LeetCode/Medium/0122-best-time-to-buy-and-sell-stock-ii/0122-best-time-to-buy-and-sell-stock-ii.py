@@ -7,7 +7,7 @@ class Solution(object):
         maxm = 0
         start = prices[0]
         len1 = len(prices)
-        for i in range(0 , len1):
+        for i in range(len1):
             if start < prices[i]: 
                 maxm += prices[i] - start
             start = prices[i]
