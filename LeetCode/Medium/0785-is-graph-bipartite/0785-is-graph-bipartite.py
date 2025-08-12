@@ -1,6 +1,5 @@
 class Solution:
     def isBipartite(self, graph: List[List[int]]) -> bool:
-
         q = deque()
         vis = defaultdict(list)
         for start in range(len(graph)):
