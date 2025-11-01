@@ -13,4 +13,3 @@ class Solution:
                 temp[col] = left+right
             dp = temp
         return dp[n-1]
-
