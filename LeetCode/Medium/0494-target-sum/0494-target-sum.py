@@ -1,35 +1,34 @@
-class Solution(object):
-    def findTargetSumWays(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: int
-        """
+class Solution:
+    def findTargetSumWays(self, nums: List[int], target: int) -> int:
+        def findWays(nums, k):
+            n = len(nums)
+            prev = [0 for i in range(k + 1)]
+            prev[0] = 1
 
-        n = len(nums)
-        k = target
-        total = sum(abs(x) for x in nums)
-        offset = total
-        if target>total:
-            return 0
-        if n == 1:
-            if (nums[0] == target or -nums[0] == target):
-                if nums[0] == 0:
-                    return 2
-                return 1
-            return 0
+            if nums[0] == 0:
+                prev[0] = 2
+            else:
+                prev[0] = 1
+                if nums[0]<=k:
+                    prev[nums[0]] = 1
+
+            for ind in range(1, n):
+                cur = [0 for i in range(k + 1)]
+                for target in range(k + 1):
+                    notTaken = prev[target]
+                    taken = 0
+                    if nums[ind] <= target:
+                        taken = prev[target - nums[ind]]
+
+                    cur[target] = notTaken + taken
+                prev = cur
+            return prev[k]
+
+        summ = sum(nums)
+        if summ < target: return 0
+        if (summ - target)%2 !=0: return 0
+
+        return findWays(nums, (summ-target)//2)
+
         
-        dp = [0 for j in range(2*offset+1)]
         
-        dp[nums[0] + offset] += 1
-        dp[-nums[0] + offset] += 1
-
-        for idx in range(1,n):
-            temp = [0]*(2*offset+1)
-            for t in range(-total,total+1):
-                if dp[t+offset]>0:
-                    temp[t+offset+nums[idx]] += dp[t+offset]
-                    temp[t+offset-nums[idx]] += dp[t+offset]
-            dp = temp
-
-        return dp[target+offset]
